@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.*;
 
@@ -24,6 +25,7 @@ public class Main {
     static int f(int n) {
         if (n <= 0) return 0;
         if (memo[n] > 0) return memo[n];
-        return f(n-1) + f(n-2) + f(n-3);
+        memo[n] = f(n-1) + f(n-2) + f(n-3);
+        return memo[n];
     }
 }
