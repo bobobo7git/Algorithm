@@ -18,7 +18,14 @@ public class Main {
             }
         }
 
-        System.out.println(root);
+        StringBuilder sb = new StringBuilder();
+        postorder(root, sb);
+        System.out.print(sb.toString());
+    }
+    static void postorder(Node now, StringBuilder sb) {
+        if (now.l != null) postorder(now.l, sb);
+        if (now.r != null) postorder(now.r, sb);
+        sb.append(now.n).append('\n');
     }
     static class Node {
         int n;
@@ -38,14 +45,14 @@ public class Main {
             if (this.r != null) this.r.connect(r);
             else this.r = r;
         }
-        @Override
-        public String toString() {
-            // postorder
-            StringBuilder sb = new StringBuilder();
-            if (this.l != null) sb.append(this.l);
-            if (this.r != null) sb.append(this.r);
-            sb.append(this.n).append('\n');
-            return sb.toString();
-        }
+//        @Override
+//        public String toString() {
+//            // postorder
+//            StringBuilder sb = new StringBuilder();
+//            if (this.l != null) sb.append(this.l);
+//            if (this.r != null) sb.append(this.r);
+//            sb.append(this.n).append('\n');
+//            return sb.toString();
+//        }
     }
 }
