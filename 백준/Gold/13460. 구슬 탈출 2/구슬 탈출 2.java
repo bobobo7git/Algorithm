@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
-
+/*
+움직이지 않는 경우 가지치기
+*/
 public class Main {
     static int N, M;
     static char[][] grid;
@@ -57,13 +59,14 @@ public class Main {
             return;
         }
         for (int d=0; d<4; d++) {
-            gravity(rr, rc, br, bc, d);
-            backtrack(depth+1);
-            restoreGrid(copy);
+            if (gravity(rr, rc, br, bc, d)){
+                backtrack(depth+1);
+                restoreGrid(copy);
+            }
         }
         
     }
-    static void gravity(int rr, int rc, int br, int bc, int dir) {
+    static boolean gravity(int rr, int rc, int br, int bc, int dir) {
         // change grid
         int[] tr = {rr, rc};
         int[] tb = {br, bc};
@@ -95,11 +98,7 @@ public class Main {
 
             if (!redMoved && !blueMoved) break;
         }
-//        grid[tr[0]][tr[1]] = '.';
-//        grid[tb[0]][tb[1]] = '.';
-//        grid[rr][rc] = 'R';
-//        grid[br][bc] = 'B';
-//        grid[or][oc] = 'O';
+        return !((rr == tr[0] && rc == tr[1]) && (br == tb[0] && bc == tb[1]));
     }
     static void restoreGrid(char[][] to) {
         for (int i=0; i<N; i++) {
