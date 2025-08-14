@@ -10,7 +10,7 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-
+        
         parents = new int[N+1];
         for (int i=0; i<=N; i++) {
             parents[i] = i;
@@ -22,31 +22,32 @@ public class Main {
             int u = Integer.parseInt(st.nextToken());
             int v = Integer.parseInt(st.nextToken());
             int c = Integer.parseInt(st.nextToken());
-
+            
             Edge edge = new Edge(u, v, c);
             edges[i] = edge;
         }
 
+
         int[] temp = Arrays.copyOf(parents, N+1);
-        
         Arrays.sort(edges, new Comparator<Edge>(){
             @Override
             public int compare(Edge o1, Edge o2) {
                 return o1.c - o2.c;
             }
         });
-        
         int max = kruskal(N, edges);
-        
-        parents = temp;
+        // init parents
+        for (int i=0; i<=N; i++) {
+            parents[i] = i;
+        }
         Arrays.sort(edges, new Comparator<Edge>(){
             @Override
             public int compare(Edge o1, Edge o2) {
                 return o2.c - o1.c;
             }
         });
-        
         int min = kruskal(N, edges);
+        
         System.out.println(max-min);
     }
     static int kruskal(int N, Edge[] edges) {
@@ -55,8 +56,7 @@ public class Main {
         int hill = 0;
 
         for (Edge edge: edges) {
-            if (find(edge.u) == find(edge.v)) continue;
-            union(edge.u, edge.v);
+            if (!union(edge.u, edge.v)) continue;
             cnt++;
             if (edge.c == 0) {
                 hill++;
@@ -71,12 +71,15 @@ public class Main {
         if (parents[v] == v) return v;
         return parents[v] = find(parents[v]);
     }
-    static void union(int x, int y) {
+    static boolean union(int x, int y) {
         x = find(x);
         y = find(y);
 
+        if (x == y) return false;
+
         if (x > y) parents[x] = y;
         else parents[y] = x;
+        return true;
     }
     static class Edge {
         int u, v;
