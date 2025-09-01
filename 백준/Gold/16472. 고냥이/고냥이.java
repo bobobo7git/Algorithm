@@ -43,10 +43,8 @@ public class Main {
         int min = t;
 
         for (int i=r; i<arr.length; i++) {
-            cnt[arr[i]-'a']++;
-            if (cnt[arr[i]-'a'] == 1) t++;
-            cnt[arr[l++]-'a']--;
-            if (cnt[arr[l-1]-'a'] == 0) t = Math.max(t-1, 0);
+            if (cnt[arr[i]-'a']++ == 0) t++;
+            if (--cnt[arr[l++]-'a'] == 0) t = Math.max(t-1, 0);
             min = Math.min(min, t);
         }
 
