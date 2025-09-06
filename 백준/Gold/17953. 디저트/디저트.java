@@ -27,9 +27,9 @@ public class Main {
             for (int i=0; i<M; i++) {
                 for (int k=0; k<M; k++) {
                     if (i == k) continue;
-                    // 연속해서 먹기
                     dp[i][j] = Math.max(dp[k][j - 1] + dessert[i][j], dp[i][j]);
                 }
+                // 연속해서 먹기
                 dp[i][j] = Math.max(dp[i][j-1]+dessert[i][j]/2, dp[i][j]);
             }
         }
