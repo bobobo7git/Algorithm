@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.*;
 
@@ -17,21 +18,47 @@ public class Main {
         String nu = "NOT UNIQUE";
 
         if (N % 2 == 0) return np;
-        StringBuilder sb = new StringBuilder(U);
+        String s1 = U.substring(0, N/2);
+        String s2 = U.substring(N/2, N);
+        String s3 = U.substring(0, N/2+1);
+        String s4 = U.substring(N/2+1, N);
+
         Set<String> set = new HashSet<>();
-        for (int i=0; i<N; i++) {
-            char c = sb.charAt(i);
-            sb.deleteCharAt(i);
-            String l = sb.substring(0, (N-1)/2);
-            String r = sb.substring((N-1)/2, N-1);
-            if (l.equals(r)) set.add(l);
-            sb.insert(i, c);
+        int i = 0;
+        int j = 0;
+        int cnt = 0;
+        while (i < s1.length() && j < s2.length()) {
+            if (s1.charAt(i) == s2.charAt(j)) {
+                i++; j++; cnt++;
+            } else {
+                if (i+1 < s1.length() && s1.charAt(i+1) == s2.charAt(j)) i++;
+                else if (j+1 < s2.length() && s2.charAt(j+1) == s1.charAt(i)) j++;
+                else break;
+            }
         }
-        if (set.size() == 0) return np;
+
+        if (cnt == s1.length()) set.add(s1);
+        if (cnt == s2.length()) set.add(s2);
+
+
         if (set.size() > 1) return nu;
-        for (String s: set) {
-            return s;
+
+        i = 0; j = 0; cnt = 0;
+        while (i < s3.length() && j < s4.length()) {
+            if (s3.charAt(i) == s4.charAt(j)) {
+                i++; j++; cnt++;
+            } else {
+                if (i+1 < s3.length() && s3.charAt(i+1) == s4.charAt(j)) i++;
+                else if (j+1 < s4.length() && s4.charAt(j+1) == s3.charAt(i)) j++;
+                else break;
+            }
         }
-        return null;
+
+        if (cnt == s3.length()) set.add(s3);
+        if (cnt == s4.length()) set.add(s4);
+
+        if (set.isEmpty()) return np;
+        if (set.size() == 1) for (String s: set) return s;
+        return nu;
     }
 }
