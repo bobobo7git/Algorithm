@@ -29,7 +29,7 @@ public class Main {
             }
         }
 
-        long[][] dp = new long[R][C];
+        int[][] dp = new int[R][C];
         dp[0][0] = pa[R-1][0] - pa[0][0];
         // - \ |
 
