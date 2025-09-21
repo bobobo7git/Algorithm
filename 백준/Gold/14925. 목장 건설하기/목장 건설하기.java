@@ -1,8 +1,19 @@
-// (a,b)에서 (i, j)까지 누적합이 0이면 정사각형
-// 1. 누적합 구하기 + 입력 = O(N*M)
-// 2. (i, j)에서 가능한 정사각형 최대크기 이진탐색
-// -> O(N*M + N*M*log(min(N, M)))
-
+/*
+* dp: (i, j)가 오른쪽 꼭지인 정사각형의 최대 길이
+* 임의의 점 (i,j)에서 크기 2의 정사각형을 만드려면
+* 좌, 위, 좌상대각에서 전부 1 크기의 정사각형을 만들 수 있어야 한다.
+* 크기 3의 정사각형을 만드려면
+* 좌, 위, 좌상대각에서 전부 2 크기의 정사각형을 만들 수 있어야 한다.
+* 크기 k의 정사각형을 만드려면
+* 좌, 위, 좌상대각에서 전부 k-1 크기의 정사각형을 만들 수 있어야 한다.
+*
+* 임의의 점 (i,j)에서 크기가 k인 정사각형을 만들 수 있다면
+* 크기가 1...k인 모든 정사각형을 만들 수 있다.
+* 좌, 위, 좌상대각을 각각 (i,j-1), (i-1,j), (i-1,j-1)이라고 하면
+* 위 세 점에서 만들 수 있는 정사각형 한 변의 최솟값을 m이라고 할때
+* 세 점에서 m 크기의 정사각형은 만들 수 있다.
+* 따라서 (i,j)가 비어있다면 m+1 크기의 정사각형을 만들 수 있다.
+* */
 import java.io.*;
 import java.util.*;
 
@@ -19,42 +30,27 @@ public class Main {
         for (int i=1; i<=N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j=1; j<=M; j++) {
-                grid[i][j] += Integer.parseInt(st.nextToken());
-                // 2차원 누적합
-                // 0,0부터 i,j까지 합
-                grid[i][j] += grid[i-1][j];
-                grid[i][j] += grid[i][j-1];
-                grid[i][j] -= grid[i-1][j-1];
+                grid[i][j] = Integer.parseInt(st.nextToken());
             }
         }
+
+        int[][] dp = new int[N+1][M+1];
         int L = 0;
-        int R = Math.min(N, M);
         for (int i=1; i<=N; i++) {
             for (int j=1; j<=M; j++) {
-                int l = L;
-                int r = R;
-                while (l <= r) {
-                    int mid = (l+r) / 2;
-                    // 변이 너무 길면 줄이기
-                    if (i-mid < 0 || j-mid < 0) {
-                        r = mid-1;
-                    }
-                    // 정사각형 가능한지 체크
-                    else {
-                        int rec = grid[i][j] - grid[i-mid][j] - grid[i][j-mid] + grid[i-mid][j-mid];
-                        if (rec == 0) {
-                            l = mid+1;
-                        } else {
-                            r = mid-1;
-                        }
-                    }
-                }
-                L = Math.max(L, r);
-
+                if (grid[i][j] > 0) continue;
+                dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1;
+                L = Math.max(L, dp[i][j]);
             }
         }
         System.out.println(L);
+    }
 
+    static int min(int... args) {
+        int m = args[0];
+        for (int i: args) {
+            m = Math.min(m, i);
+        }
+        return m;
     }
 }
-
