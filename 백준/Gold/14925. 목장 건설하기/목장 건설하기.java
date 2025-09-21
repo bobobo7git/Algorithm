@@ -1,3 +1,8 @@
+// (a,b)에서 (i, j)까지 누적합이 0이면 정사각형
+// 1. 누적합 구하기 + 입력 = O(N*M)
+// 2. (i, j)에서 가능한 정사각형 최대크기 이진탐색
+// -> O(N*M + N*M*log(min(N, M)))
+
 import java.io.*;
 import java.util.*;
 
