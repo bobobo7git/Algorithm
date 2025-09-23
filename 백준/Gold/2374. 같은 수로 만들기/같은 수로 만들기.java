@@ -8,31 +8,23 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
         long cnt = 0;
-
+        int highest = 0;
         Deque<Integer> stack = new ArrayDeque<>();
         for (int i=0; i<N; i++) {
             int n = Integer.parseInt(br.readLine());
-            // 현재 스택의 peek보다 높으면 다 꺼내서 add
-            if (!stack.isEmpty() && n >= stack.peek()) {
-                int min = Integer.MAX_VALUE;
-                while (!stack.isEmpty() && n >= stack.peek()) {
-                    min = Math.min(min, stack.pop());
-                }
-                cnt += n - min;
+            // 단조 감소스택이므로 항상 내림차순이 보장됨
+            // peek은 가장 작은 수를 의미
+            if (!stack.isEmpty() && stack.peek() <= n) {
+                // 높이차만큼 메우기
+                cnt += n - stack.pop();
             }
-
             stack.push(n);
+            highest = Math.max(highest, n);
         }
-        
-        int max = 0;
-        int min = Integer.MAX_VALUE;
-        while (!stack.isEmpty()) {
-            int pop = stack.pop();
-            max = Math.max(max, pop);
-            min = Math.min(min, pop);
-        }
-        cnt += max-min;
 
+        // 스택 peek은 가장 낮은 높이 저장
+        // 최고 높이 - 최저점 더해주면 됨
+        if (!stack.isEmpty()) cnt += highest - stack.pop();
         System.out.println(cnt);
     }
 }
