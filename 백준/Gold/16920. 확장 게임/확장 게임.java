@@ -4,7 +4,6 @@ import java.util.*;
 public class Main {
     static int N, M, P;
     static int[] S;
-    static char[][] grid;
     static Castle[][] tile;
     public static void main(String[] args) throws IOException {
         InputStreamReader reader = new InputStreamReader(System.in);
@@ -21,14 +20,12 @@ public class Main {
             S[i] = Integer.parseInt(st.nextToken());
         }
 
-        grid = new char[N][M];
         tile = new Castle[N][M];
         // 1번부터 순서대로 넣기 위해 리스트에 넣고 정렬
         List<Castle> list = new ArrayList<>();
         for (int i=0; i<N; i++) {
             String line = br.readLine();
             for (int j=0; j<M; j++) {
-                grid[i][j] = line.charAt(j);
                 char c = line.charAt(j);
                 if (c == '#') {
                     tile[i][j] = new Castle(i, j, 0, 0);
@@ -110,10 +107,7 @@ public class Main {
                 sum[c.n]++;
             }
         }
-//        for (int i=0; i<N; i++) {
-//            System.out.println(Arrays.toString(tile[i]));
-//        }
-//        System.out.println(Arrays.toString(sum));
+
         return sum;
     }
     static boolean oob(int r, int c) {
@@ -128,10 +122,6 @@ public class Main {
             this.c = c;
             this.n = n;
             this.d = d;
-        }
-        @Override
-        public String toString() {
-            return n+"";
         }
     }
 }
