@@ -1,41 +1,39 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-public class Main {
-    static int N, K;
-    static int[] coffee;
-    static int[][] dp;
-    static final int INF = 1111111;
+class Main {
     public static void main(String[] args) throws IOException {
         InputStreamReader reader = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(reader);
 
         StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken());
-
-        coffee = new int[N+1];
-        dp = new int[N+1][K+1];
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
+        
+        int[] coffee = new int[N+1];
         st = new StringTokenizer(br.readLine());
         for (int i=1; i<=N; i++) {
             coffee[i] = Integer.parseInt(st.nextToken());
         }
-        // i번째 커피를 볼때 용량 j를 채우는 최소 커피 수
+        // dp = 1~i번째 커피를 사용했을 때 K를 만드는 최소의 커피 수
+        int[][] dp = new int[N+1][K+1];
+        final int INF = 111111;
         for (int i=0; i<=N; i++) {
-            for (int j=0; j<=K; j++) {
-                dp[i][j] = -1;
+            for (int j=1; j<=K; j++) {
+                dp[i][j] = INF;
             }
         }
-
-        int result = topDown(N, K);
-        System.out.println(result == INF ? -1 : result);
-    }
-    static int topDown(int i, int cap) {
-        if (cap == 0) return 0;
-        if (i == 0) return INF;
-        if (dp[i][cap] != -1) return dp[i][cap];
-
-        if (cap >= coffee[i]) return dp[i][cap] = Math.min(topDown(i-1, cap), topDown(i-1, cap-coffee[i])+1);
-        return dp[i][cap] = topDown(i-1, cap);
+        
+        
+        for (int i=1; i<=N; i++) {
+            for (int j=1; j<=K; j++) {
+                // 현재 커피를 안마시기
+                dp[i][j] = dp[i-1][j];
+                // 현재 커피 마시기
+                if (j-coffee[i] >= 0) dp[i][j] = Math.min(dp[i][j], dp[i-1][j-coffee[i]]+1);
+            }
+        }
+        System.out.println(dp[N][K] == INF ? -1: dp[N][K]);
+        
     }
 }
