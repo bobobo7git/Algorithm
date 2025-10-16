@@ -38,14 +38,9 @@ public class Main {
             sum -= edges[i][2];
             cnt++;
         }
-        for (int i=1; i<=N; i++) {
-            if (find(i) != 1) {
-                sum = -1;
-                break;
-            }
-        }
         
-        System.out.println(sum);
+        
+        System.out.println(sum = cnt == N-1 ? sum : -1);
     }
     static int find(int v) {
         if (v == parents[v]) return v;
