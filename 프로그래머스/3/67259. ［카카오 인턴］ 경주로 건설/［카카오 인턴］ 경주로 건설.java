@@ -38,6 +38,7 @@ class Solution {
             
             if (r == N-1 && c == N-1) {
                 answer = Math.min(answer, g);
+                continue;
             }
             if (dist[r][c][d] < g) continue;
             for (int k=0; k<4; k++) {
