@@ -19,30 +19,33 @@ public class Main {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int u = Integer.parseInt(st.nextToken());
             int v = Integer.parseInt(st.nextToken());
-            adjList.get(u).add(v);
-            adjList.get(v).add(u);
-        }
-
-        for (int i=1; i<=N; i++) {
-            if (parents[i] == i) {
-                // bfs
-                Queue<Integer> q = new ArrayDeque<>();
-                q.offer(i);
-                while (!q.isEmpty()) {
-                    int x = q.poll();
-                    int px = find(x);
-                    for (int next: adjList.get(x)) {
-                        int py = find(next);
-                        if (px == py) continue;
-                        union(px, py);
-                        q.offer(next);
-                    }
-                }
+            int pu = find(u);
+            int pv = find(v);
+            if (pu != pv) {
+                union(pu, pv);
             }
         }
+
+//        for (int i=1; i<=N; i++) {
+//            if (parents[i] == i) {
+//                // bfs
+//                Queue<Integer> q = new ArrayDeque<>();
+//                q.offer(i);
+//                while (!q.isEmpty()) {
+//                    int x = q.poll();
+//                    int px = find(x);
+//                    for (int next: adjList.get(x)) {
+//                        int py = find(next);
+//                        if (px == py) continue;
+//                        union(px, py);
+//                        q.offer(next);
+//                    }
+//                }
+//            }
+//        }
         StringBuilder sb = new StringBuilder();
         for (int i=1; i<N; i++) {
-            if (parents[i] != parents[i+1]) {
+            if (find(i) != find(i+1)) {
                 sb.append(i).append(' ').append(i+1);
                 break;
             }
