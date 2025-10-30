@@ -42,13 +42,17 @@ public class Main {
         int[] order = orders[i];
         int ret = 0;
 
-        for (int j=i+1; j<=N; j++) {
-            ret = Math.max(ret, dfs(j, m, k));
-            if (m-order[0] >= 0 && k-order[1] >= 0) {
-                ret = Math.max(ret, dfs(j, m-order[0], k-order[1])+1);
-            }
+//        for (int j=i+1; j<=N; j++) {
+//            ret = Math.max(ret, dfs(j, m, k));
+//            if (m-order[0] >= 0 && k-order[1] >= 0) {
+//                ret = Math.max(ret, dfs(j, m-order[0], k-order[1])+1);
+//            }
+//        }
+        ret = Math.max(ret, dfs(i+1, m, k));
+        if (m-order[0] >= 0 && k-order[1] >= 0) {
+            ret = Math.max(ret, dfs(i+1, m-order[0], k-order[1])+1);
         }
-        
+
 
         return dp[i][m][k] = ret;
     }
