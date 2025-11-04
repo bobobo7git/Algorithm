@@ -24,16 +24,34 @@ public class Main {
         * 바로 이전 회차의 무기만 사용하지 않음
         * i번째 회차에서 i-1번째 회차에서 선택한 무기 제외
         * */
-        memo = new int[N+1][M+1];
+//        memo = new int[N+1][M+1];
+//        for (int i=1; i<=N; i++) {
+//            Arrays.fill(memo[i], Integer.MAX_VALUE);
+//        }
+//
+//        int min = Integer.MAX_VALUE;
+//        for (int w=1; w<=M; w++) {
+//            min = Math.min(min, topDown(N, w));
+//        }
+//        System.out.println(min);
+        int[][] dp = new int[N+1][M+1];
         for (int i=1; i<=N; i++) {
-            Arrays.fill(memo[i], Integer.MAX_VALUE);
+            Arrays.fill(dp[i], Integer.MAX_VALUE);
+        }
+
+        for (int i=1; i<=N; i++) {
+            for (int j=1; j<=M; j++) {
+                for (int k=1; k<=M; k++) {
+                    if (j == k) continue;
+                    dp[i][j] = Math.min(dp[i][j], dp[i-1][k]+table[i][j]);
+                }
+            }
         }
         int min = Integer.MAX_VALUE;
         for (int w=1; w<=M; w++) {
-            min = Math.min(min, topDown(N, w));
+            min = Math.min(min, dp[N][w]);
         }
         System.out.println(min);
-
 
     }
     static int topDown(int i, int j) {
