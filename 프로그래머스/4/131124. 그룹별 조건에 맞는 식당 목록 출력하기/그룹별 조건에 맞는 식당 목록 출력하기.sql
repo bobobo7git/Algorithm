@@ -1,30 +1,32 @@
--- 코드를 입력하세요
-/*
-리뷰를 가장 많이 작성한 회원들의 리뷰 조회
-1. 가장 많은 리뷰 수를 서브쿼리로 뽑기
-2. 리뷰수가 가장 많은 리뷰수와 같은 회원 id를 서브쿼리로 뽑기
-3. 회원 id가 2의 회원id인 녀석들 뽑기
-*/
-
-with top as (
-    select
-        count(*) cnt
-    from rest_review
+with cnt as (
+    select count(member_id) from rest_review
     group by member_id
-    order by count(*) desc
+    order by count(member_id) desc
     limit 1
 ),
-best as (
-    select member_id from rest_review
+-- 코드를 입력하세요
+cte as (
+    select member_id, count(member_id) cnt from rest_review
     group by member_id
-    having count(*) in (select * from top)
+    
+),
+
+
+cte2 as (select 
+    c.member_id,
+    r.review_text,
+    date_format(r.review_date, '%Y-%m-%d') review_date
+from cte c
+join rest_review r
+on c.member_id = r.member_id
+where c.cnt in (select * from cnt)
 )
 
-select
-    member_name, review_text, date_format(review_date, '%Y-%m-%d')
-from member_profile m
-join rest_review r
-on m.member_id = r.member_id
-where m.member_id in (select * from best)
-order by review_date, review_text
-
+select 
+    p.member_name,
+    c.review_text,
+    c.review_date
+from cte2 c
+join member_profile p
+on c.member_id = p.member_id
+order by c.review_date, c.review_text
