@@ -43,9 +43,7 @@ public class Main {
             // 먼저 다 내려줌
             while (!boat.isEmpty()) {
                 Customer done = boat.poll();
-//                System.out.println(now+" "+done+" "+time);
                 arrive[done.id] = time;
-//                sb.append(time).append('\n');
             }
             // 현재 정박장에서 태울 수 있는 사람을 전부 태운다.
             Queue<Customer> cur = now == LEFT ? left : right;
@@ -62,14 +60,13 @@ public class Main {
                     time += T;
                 }
                 // 둘다 바로 못 태움
-
                 else {
-                    // 둘다 비어있으면 종료
+                    // 둘중에 작은 시간으로 점프
                     int next = Integer.MAX_VALUE;
-                    if (!cur.isEmpty())  next = Math.min(next, cur.peek().t);
-                    if (!opp.isEmpty())  next = Math.min(next, opp.peek().t);
-                    if (next == Integer.MAX_VALUE) break; // 진짜 아무도 없으면 종료
-                    time = Math.max(time, next);
+                    if (!cur.isEmpty()) next = Math.min(next, cur.peek().t);
+                    if (!opp.isEmpty()) next = Math.min(next, opp.peek().t);
+                    if (next == Integer.MAX_VALUE) break;
+                    time = next;
                 }
 
             }
