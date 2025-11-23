@@ -50,6 +50,7 @@ public class Main {
         int cnt = 0;
         for (int c=i; c<=26; c++) {
             int next = bits | (1 << c);
+            if (next == bits) continue;
             cnt = Math.max(cnt, dfs(next, c+1, remain-1));
         }
         return cnt;
