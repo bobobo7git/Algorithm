@@ -51,22 +51,25 @@ public class Main {
                 }
             }
 
-            result = new HashMap<>();
             Deque<Character> stack = new ArrayDeque<>();
-            isOver = false;
-            outer: for (int i=0; i<N; i++)  {
-                for (int j=0; j<M; j++) {
-                    if (isOver) break outer;
-                    if (grid[i][j] == '.') {
-                        for (int d=0; d<4; d++) {
-                            char c = "LRUD".charAt(d);
-                            stack.push(c);
-                            dfs(i, j, 0, stack);
-                            stack.pop();
+            outer: for (int limit=1; limit<=10; limit++) {
+                result = new HashMap<>();
+                isOver = false;
+                for (int i=0; i<N; i++)  {
+                    for (int j=0; j<M; j++) {
+                        if (isOver) break outer;
+                        if (grid[i][j] == '.') {
+                            for (int d=0; d<4; d++) {
+                                char c = "LRUD".charAt(d);
+                                stack.push(c);
+                                dfs(i, j, 0, stack, limit);
+                                stack.pop();
+                            }
                         }
                     }
                 }
             }
+
             String ret = "XHAE";
             for (String s: result.keySet()) {
                 if (result.get(s) == cnt) {
@@ -80,8 +83,9 @@ public class Main {
         bw.flush();
         bw.close();
     }
-    static void dfs(int r, int c, int depth, Deque<Character> route) {
-        if (depth == 10 || isOver) {
+
+    static void dfs(int r, int c, int depth, Deque<Character> route, int limit) {
+        if (depth == limit || isOver) {
             return;
         }
         // 이동
@@ -109,7 +113,7 @@ public class Main {
             char next = "LRUD".charAt(i);
             if (next == route.peek()) continue;
             route.push(next);
-            dfs(r, c, depth+1, route);
+            dfs(r, c, depth+1, route, limit);
             route.pop();
         }
 
