@@ -37,7 +37,7 @@ public class Main {
         Arrays.fill(vals, -1);
         boolean[] visited = new boolean[10];
         boolean result = perm(arr, vals, 0, visited);
-        System.out.println(can ? "YES" : "NO");
+        System.out.println(result ? "YES" : "NO");
     }
     /*
     * 문자에 숫자를 중복없이 순열로 할당
@@ -53,7 +53,7 @@ public class Main {
             visited[i] = true;
             vals[idx] = i;
             ret = perm(arr, vals, idx+1, visited);
-//            if (ret) return true;
+            if (ret) return true;
             vals[idx] = -1;
             visited[i] = false;
         }
@@ -82,7 +82,6 @@ public class Main {
 //        System.out.println(sum1+" "+sum2+" "+sum);
 //        System.out.println(Arrays.toString(arr));
 //        System.out.println(Arrays.toString(vals));
-        if (sum1 + sum2 == sum) can = true;
         return sum1 + sum2 == sum;
     }
     /*
