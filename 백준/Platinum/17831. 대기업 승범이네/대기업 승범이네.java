@@ -46,14 +46,17 @@ public class Main {
         // 현재 노드가 이미 연결되어있으면 다음 노드와 연결할 수 없음
         int ret = 0;
         int unlinkedAll = 0;
-        for (int next: adjList.get(v)) {
+        List<Integer> list = adjList.get(v);
+        for (int i=0; i<list.size(); i++) {
+            int next = list.get(i);
             unlinkedAll += dfs(next, 0);
         }
         if (linked == 1) {
             return dp[v][linked] = unlinkedAll;
         }
         ret = unlinkedAll;
-        for (int next: adjList.get(v)) {
+        for (int i=0; i<list.size(); i++) {
+            int next = list.get(i);
             int val = ability[v]*ability[next] + dfs(next, 1);
             ret = Math.max(ret, unlinkedAll - dfs(next, 0) + val);
         }
