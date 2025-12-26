@@ -2,6 +2,15 @@ import java.io.*;
 import java.util.*;
 
 /*
+* n -> 2n일 후 문자열 수
+* 약이 n개 담겨있다.
+* n=1) wh
+* n=2) 약이 2개
+* 1일: 한개 꺼내서 먹고 반조각은 다시 넣음 -> 1개, 0.5개
+* 2일-1: 1개 꺼낸 경우 -> 0개, 반조각 2개
+*  => 이후 반조각 반조각 -> wwhh
+* 2일-2: 반조각 -> 1개
+* 3일: -> 반조각 반조각 -> whww
 *
 * n=3)
 * 1d: 2/0.5   w
@@ -22,7 +31,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         InputStreamReader reader = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(reader);
-
+        OutputStreamWriter writer = new OutputStreamWriter(System.out);
+        BufferedWriter bw = new BufferedWriter(writer);
         while (true) {
             int n = Integer.parseInt(br.readLine());
             if (n == 0) break;
@@ -42,8 +52,10 @@ public class Main {
                     }
                 }
             }
-            System.out.println(dp[2*n][0][0]);
+            bw.write(dp[2*n][0][0]+"\n");
         }
+        bw.flush();
+        bw.close();
     }
 
 }
